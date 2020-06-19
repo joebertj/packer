@@ -1,8 +1,8 @@
 {
   "variables": {
     "name": "AMI-EAST-1",
-    "profile": "oasis",
-    "base_ami": "ami-07d651d2deaa2caac"
+    "profile": "joebertj",
+    "base_ami": "ami-09a1bda913b987f5b"
   },
 
   "builders": [
@@ -14,7 +14,18 @@
     "source_ami": "{{user `base_ami`}}",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "{{user `name`}}-CLIENT-{{timestamp}}"
+    "ami_name": "{{user `name`}}-CLIENT-{{timestamp}}",
+    "vpc_filter": {
+      "filters": {
+        "tag:Name": "kopsvpc"
+      }
+    },
+    "subnet_filter": {
+      "filters": {
+        "tag:type": "public"
+      },
+      "random": true
+    }
    },
    { 
     "name": "server",	  
@@ -24,7 +35,18 @@
     "source_ami": "{{user `base_ami`}}",
     "instance_type": "t2.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "{{user `name`}}-SERVER-{{timestamp}}"
+    "ami_name": "{{user `name`}}-SERVER-{{timestamp}}",
+    "vpc_filter": {
+      "filters": {
+        "tag:Name": "kopsvpc"
+      }
+    },
+    "subnet_filter": {
+      "filters": {
+        "tag:type": "public"
+      },
+      "random": true
+    }
    }
   ],
  

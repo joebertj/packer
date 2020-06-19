@@ -119,7 +119,7 @@ job "worker" {
       driver = "docker"
 
       config {
-        image = "214847240359.dkr.ecr.ap-southeast-2.amazonaws.com/worker"
+        image = "022663378596.dkr.ecr.ap-southeast-2.amazonaws.com/worker"
         port_map {
           http = 80
         }
@@ -161,7 +161,7 @@ job "fabio" {
     task "fabio" {
       driver = "docker"
       config {
-        image = "214847240359.dkr.ecr.ap-southeast-2.amazonaws.com/fabio"
+        image = "022663378596.dkr.ecr.ap-southeast-2.amazonaws.com/fabio"
         network_mode = "host"
       }
 

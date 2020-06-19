@@ -22,7 +22,7 @@ mkdir ~/.docker
 cat <<EOF > ~/.docker/config.json
 {
         "credHelpers": {
-                "214847240359.dkr.ecr.ap-southeast-2.amazonaws.com": "ecr-login"
+                "022663378596.dkr.ecr.ap-southeast-2.amazonaws.com": "ecr-login"
         }
 }
 EOF
