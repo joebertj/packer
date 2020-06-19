@@ -1,0 +1,52 @@
+{
+  "variables": {
+    "name": "AMI-EAST-1",
+    "profile": "joebertj"
+  },
+
+  "builders": [
+   {
+    "name": "base",	  
+    "profile": "{{user `profile`}}",
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "source_ami": "ami-085925f297f89fce1",
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "{{user `name`}}-BASE-{{timestamp}}",
+    "vpc_filter": {
+      "filters": {
+        "tag:Name": "kopsvpc"
+      }
+    },
+    "subnet_filter": {
+      "filters": {
+        "tag:type": "public"
+      },
+      "random": true
+    }
+   }
+  ],
+ 
+  "provisioners": [
+  {
+    "type": "shell",
+    "script": "install-prereq.sh"
+  },
+  {
+    "type": "shell",
+    "script": "install-worker.sh"
+  }
+  ],
+
+  "post-processors": [
+    [
+      {
+        "output": "base-manifest.json",
+        "strip_path": true,
+        "type": "manifest"
+      }
+    ]
+  ]
+}
+

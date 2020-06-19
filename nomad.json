@@ -1,0 +1,54 @@
+{
+  "variables": {
+    "name": "AMI-EAST-1",
+    "profile": "oasis",
+    "base_ami": "ami-07d651d2deaa2caac"
+  },
+
+  "builders": [
+   {
+    "name": "client",	  
+    "profile": "{{user `profile`}}",
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "source_ami": "{{user `base_ami`}}",
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "{{user `name`}}-CLIENT-{{timestamp}}"
+   },
+   { 
+    "name": "server",	  
+    "profile": "{{user `profile`}}",
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "source_ami": "{{user `base_ami`}}",
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "{{user `name`}}-SERVER-{{timestamp}}"
+   }
+  ],
+ 
+  "provisioners": [
+  {
+    "type": "shell",
+    "script": "install-post-client.sh",
+    "only": [ "client" ]
+  },
+  {
+    "type": "shell",
+    "script": "install-post-server.sh",
+    "only": [ "server" ]
+  }
+  ],
+
+  "post-processors": [
+    [
+      {
+        "output": "nomad-manifest.json",
+        "strip_path": true,
+        "type": "manifest"
+      }
+    ]
+  ]
+}
+
